@@ -1,0 +1,27 @@
+package com.example.car_service.model;
+
+import com.google.gson.annotations.SerializedName;
+
+public class Service {
+    @SerializedName("id")
+    private long id;
+
+    @SerializedName("serviceName")
+    private String serviceName;
+
+    @SerializedName("description")
+    private String description;
+
+    @SerializedName("price")
+    private double price;
+
+    // Getters and Setters
+    public long getId() { return id; }
+    public void setId(long id) { this.id = id; }
+    public String getServiceName() { return serviceName; }
+    public void setServiceName(String serviceName) { this.serviceName = serviceName; }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+    public double getPrice() { return price; }
+    public void setPrice(double price) { this.price = price; }
+}
