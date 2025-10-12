@@ -5,12 +5,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
     // LƯU Ý QUAN TRỌNG: DÙNG IP 10.0.2.2 THAY CHO LOCALHOST
-    // Đây là địa chỉ IP đặc biệt mà máy ảo Android dùng để truy cập localhost của máy tính.
     private static final String BASE_URL = "http://10.0.2.2:8080/";
 
     private static Retrofit retrofit = null;
 
-    public static Retrofit getClient() {
+    private static Retrofit getClient() { // Giữ phương thức này là private
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
@@ -18,5 +17,10 @@ public class ApiClient {
                     .build();
         }
         return retrofit;
+    }
+
+    // *** TẠO PHƯƠNG THỨC PUBLIC NÀY ĐỂ SỬ DỤNG Ở MỌI NƠI ***
+    public static ApiService getApiService() {
+        return getClient().create(ApiService.class);
     }
 }

@@ -10,12 +10,35 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Car_service"
-        android:networkSecurityConfig="@xml/network_security_config"
         tools:targetApi="31">
-
+        <activity
+            android:name=".activity.EditProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.AccountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".item_banner"
+            android:exported="false" />
+        <activity
+            android:name=".service.item_service"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ItemAppointment"
+            android:exported="false" />
+        <activity
+            android:name=".activity.HistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ResetPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ForgotPasswordActivity"
+            android:exported="false" />
         <activity
             android:name=".activity.BookingActivity"
             android:exported="false" />
@@ -25,16 +48,15 @@
         <activity
             android:name=".activity.RegisterActivity"
             android:exported="false" />
-
         <activity
             android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>
