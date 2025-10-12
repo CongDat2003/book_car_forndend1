@@ -15,6 +15,8 @@ public class Service {
     @SerializedName("price")
     private double price;
 
+    @SerializedName("imageUrl")
+    private String imageUrl;
     // Getters and Setters
     public long getId() { return id; }
     public void setId(long id) { this.id = id; }
@@ -24,4 +26,6 @@ public class Service {
     public void setDescription(String description) { this.description = description; }
     public double getPrice() { return price; }
     public void setPrice(double price) { this.price = price; }
-}
+
+    public String getImageUrl() { return imageUrl; }
+    }

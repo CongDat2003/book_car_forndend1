@@ -1,8 +1,10 @@
 package com.example.car_service.model;
 
 import com.google.gson.annotations.SerializedName;
+import java.io.Serializable; // Thêm import này
 
-public class User {
+public class User implements Serializable { // Thêm "implements Serializable"
+
     @SerializedName("id")
     private Long id;
 
@@ -18,44 +20,23 @@ public class User {
     @SerializedName("role")
     private String role;
 
-    // Getters and setters
-    public Long getId() {
-        return id;
-    }
+    // Thêm các trường mới
+    @SerializedName("dateOfBirth")
+    private String dateOfBirth;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @SerializedName("gender")
+    private String gender;
 
-    public String getFullName() {
-        return fullName;
-    }
+    @SerializedName("address")
+    private String address;
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
+    // Getters and setters cho tất cả các trường...
+    public Long getId() { return id; }
+    public String getFullName() { return fullName; }
+    public String getEmail() { return email; }
+    public String getPhoneNumber() { return phoneNumber; }
+    public String getRole() { return role; }
+    public String getDateOfBirth() { return dateOfBirth; }
+    public String getGender() { return gender; }
+    public String getAddress() { return address; }
 }

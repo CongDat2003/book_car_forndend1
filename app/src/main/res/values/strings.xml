@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">car_service</string>
+    <string name="default_web_client_id">456634657565-mflitjhf1sm0evog5nrjklipq0q82bd4.apps.googleusercontent.com</string>
+    <string name="store_name_placeholder">Tên Cửa Hàng</string>
 </resources>
