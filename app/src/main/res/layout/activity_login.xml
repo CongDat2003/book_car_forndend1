@@ -14,15 +14,16 @@
         android:layout_height="wrap_content"
         android:padding="24dp">
 
-        <!-- 1. HÌNH ẢNH MINH HỌA -->
         <ImageView
             android:id="@+id/imageViewIllustration"
-            android:layout_width="0dp"                       android:layout_height="200dp"                   android:layout_marginTop="0dp"                 android:scaleType="centerCrop"                  app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/img_login_illustration" />
 
-        <!-- 2. TIÊU ĐỀ -->
         <TextView
             android:id="@+id/textViewTitle"
             android:layout_width="wrap_content"
@@ -36,7 +37,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/imageViewIllustration" />
 
-        <!-- 3. FORM ĐĂNG NHẬP (TRONG CARDVIEW) -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardViewForm"
             android:layout_width="0dp"
@@ -60,7 +60,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Email">
-
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextEmail"
                         android:layout_width="match_parent"
@@ -76,7 +75,6 @@
                     android:layout_marginTop="16dp"
                     android:hint="Mật khẩu"
                     app:passwordToggleEnabled="true">
-
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/editTextPassword"
                         android:layout_width="match_parent"
@@ -84,11 +82,19 @@
                         android:inputType="textPassword" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/textViewForgotPassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="8dp"
+                    android:padding="8dp"
+                    android:text="Quên mật khẩu?"
+                    android:textColor="?attr/colorPrimary" />
 
+            </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- 4. NÚT ĐĂNG NHẬP CHÍNH -->
         <Button
             android:id="@+id/buttonLogin"
             android:layout_width="0dp"
@@ -101,7 +107,6 @@
             app:layout_constraintStart_toStartOf="@id/cardViewForm"
             app:layout_constraintTop_toBottomOf="@id/cardViewForm" />
 
-        <!-- 5. CHỮ "HOẶC ĐĂNG NHẬP VỚI" -->
         <TextView
             android:id="@+id/textViewSocialLoginLabel"
             android:layout_width="wrap_content"
@@ -112,7 +117,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/buttonLogin" />
 
-        <!-- 6. CÁC NÚT ĐĂNG NHẬP MẠNG XÃ HỘI -->
         <LinearLayout
             android:id="@+id/layoutSocialButtons"
             android:layout_width="wrap_content"
@@ -157,8 +161,6 @@
                 app:icon="@drawable/ic_facebook_logo"
                 app:iconTint="@null" />
         </LinearLayout>
-
-        <!-- 7. LINK ĐẾN MÀN HÌNH ĐĂNG KÝ -->
         <TextView
             android:id="@+id/textViewRegister"
             android:layout_width="wrap_content"
