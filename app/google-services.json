@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "456634657565",
+    "project_id": "car-service-app-683c4",
+    "storage_bucket": "car-service-app-683c4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:456634657565:android:01017be76b047f6db10ff4",
+        "android_client_info": {
+          "package_name": "com.example.car_service"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "456634657565-6ih6p3bm719meh8haft3rebkuu2440hs.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.car_service",
+            "certificate_hash": "f4334b43d86df46c22e4b36296f09230e6d57888"
+          }
+        },
+        {
+          "client_id": "456634657565-mflitjhf1sm0evog5nrjklipq0q82bd4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAs1mYcZLj_f4k1-JqfosO3wHyIUFkEq8Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "456634657565-mflitjhf1sm0evog5nrjklipq0q82bd4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

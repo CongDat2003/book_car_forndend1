@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/nav_home"
+        android:title="Trang chủ"
+        android:icon="@drawable/ic_home" />
+    <item android:id="@+id/nav_rescue"
+        android:title="Cứu hộ"
+        android:icon="@drawable/ic_help" />
+    <item android:id="@+id/nav_store"
+        android:title="Cửa hàng"
+        android:icon="@drawable/ic_store" />
+    <item android:id="@+id/nav_appointment"
+        android:title="Lịch hẹn"
+        android:icon="@drawable/ic_event" />
+    <item android:id="@+id/nav_account"
+        android:title="Tài khoản"
+        android:icon="@drawable/ic_person" />
+</menu>

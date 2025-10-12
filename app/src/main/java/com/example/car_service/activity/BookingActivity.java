@@ -64,7 +64,8 @@ public class BookingActivity extends AppCompatActivity {
         buttonConfirmBooking = findViewById(R.id.buttonConfirmBooking);
 
         // Khởi tạo ApiService
-        apiService = ApiClient.getClient().create(ApiService.class);
+        // Dòng code đúng
+        apiService = ApiClient.getApiService();
 
         // Lấy token và user ID đã lưu
         loadAuthInfo();
