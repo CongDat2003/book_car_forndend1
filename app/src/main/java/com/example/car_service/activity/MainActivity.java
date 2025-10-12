@@ -3,79 +3,99 @@ package com.example.car_service.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.car_service.R;
+import com.example.car_service.adapter.BannerAdapter;
+import com.example.car_service.adapter.StoreAdapter;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView textViewWelcome;
-    private Button buttonNewBooking, buttonViewHistory, buttonLogout;
+    private ViewPager2 viewPagerBanner;
+    private TabLayout tabLayoutIndicator;
+    private RecyclerView recyclerViewStores;
+    private BottomNavigationView bottomNavigation;
+    private TextView textViewUserName;
+
+    // Dữ liệu mẫu (trong thực tế sẽ lấy từ API)
+    private int[] bannerImages = {R.drawable.banner_placeholder_1, R.drawable.ic_launcher_background};
+    private int[] storeImages = {R.drawable.store_placeholder_1, R.drawable.ic_launcher_background, R.drawable.store_placeholder_1};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // 1. Kiểm tra trạng thái đăng nhập
-        if (!isUserLoggedIn()) {
-            // Nếu chưa đăng nhập, chuyển đến màn hình Login
-            redirectToLogin();
-            return; // Dừng thực thi code ở đây
-        }
-
-        // Nếu đã đăng nhập, tiếp tục hiển thị giao diện của MainActivity
         setContentView(R.layout.activity_main);
 
-        // Ánh xạ views
-        textViewWelcome = findViewById(R.id.textViewWelcome);
-        buttonNewBooking = findViewById(R.id.buttonNewBooking);
-        buttonViewHistory = findViewById(R.id.buttonViewHistory);
-        buttonLogout = findViewById(R.id.buttonLogout);
+        // Ánh xạ các view
+        viewPagerBanner = findViewById(R.id.viewPagerBanner);
+        tabLayoutIndicator = findViewById(R.id.tabLayoutIndicator);
+        recyclerViewStores = findViewById(R.id.recyclerViewStores);
+        bottomNavigation = findViewById(R.id.bottomNavigation);
+        textViewUserName = findViewById(R.id.textViewUserName);
 
-        // TODO: Lấy tên người dùng và hiển thị lên textViewWelcome
+        // Cài đặt
+        displayUserName();
+        setupBanner();
+        setupStoresRecyclerView();
+        setupBottomNavigation();
 
-        // Xử lý sự kiện click cho các nút
-        buttonNewBooking.setOnClickListener(v -> {
-            // Chuyển sang màn hình đặt lịch
-            Intent intent = new Intent(MainActivity.this, BookingActivity.class);
-            startActivity(intent);
-        });
-
-        buttonViewHistory.setOnClickListener(v -> {
-            // TODO: Chuyển sang màn hình Lịch sử đặt lịch
-            Toast.makeText(this, "Chức năng đang được phát triển", Toast.LENGTH_SHORT).show();
-        });
-
-        buttonLogout.setOnClickListener(v -> {
-            // Xử lý đăng xuất
-            logoutUser();
-        });
+        // Setup click cho các thẻ trong Grid
+        findViewById(R.id.cardBookRepair).setOnClickListener(v ->
+                startActivity(new Intent(this, BookingActivity.class))
+        );
     }
 
-    private boolean isUserLoggedIn() {
-        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
-        // Kiểm tra xem token có tồn tại và không rỗng hay không
-        return sharedPreferences.getString("jwt_token", null) != null;
+    private void displayUserName() {
+        String fullName = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
+                .getString("user_full_name", "Khách");
+        if (fullName != null && !fullName.isEmpty()) {
+            textViewUserName.setText(fullName.split(" ")[0]);
+        }
     }
 
-    private void redirectToLogin() {
-        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-        startActivity(intent);
-        finish(); // Đóng MainActivity để người dùng không thể quay lại bằng nút back
+    private void setupBanner() {
+        BannerAdapter bannerAdapter = new BannerAdapter(bannerImages);
+        viewPagerBanner.setAdapter(bannerAdapter);
+        new TabLayoutMediator(tabLayoutIndicator, viewPagerBanner, (tab, position) -> {}).attach();
     }
 
-    private void logoutUser() {
-        // Xóa token đã lưu
-        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.remove("jwt_token");
-        editor.apply();
+    private void setupStoresRecyclerView() {
+        recyclerViewStores.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        StoreAdapter storeAdapter = new StoreAdapter(storeImages);
+        recyclerViewStores.setAdapter(storeAdapter);
+    }
 
-        // Chuyển về màn hình đăng nhập
-        redirectToLogin();
+    private void setupBottomNavigation() {
+        bottomNavigation.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+
+            if (itemId == R.id.nav_home) {
+                // Người dùng đang ở trang chủ, không cần làm gì
+                return true;
+            } else if (itemId == R.id.nav_appointment) {
+                // Chuyển đến màn hình Lịch sử cuộc hẹn
+                startActivity(new Intent(this, HistoryActivity.class));
+                return true;
+            } else if (itemId == R.id.nav_account) {
+                // Chuyển đến màn hình Tài khoản
+                startActivity(new Intent(this, AccountActivity.class));
+                return true;
+            } else if (itemId == R.id.nav_rescue || itemId == R.id.nav_store) {
+                // Hiển thị thông báo cho các chức năng chưa phát triển
+                Toast.makeText(this, "Chức năng đang được phát triển", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+
+            // Trả về false nếu không xử lý
+            return false;
+        });
     }
 }

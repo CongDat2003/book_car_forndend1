@@ -1,15 +1,17 @@
 package com.example.car_service.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,6 +20,17 @@ import com.example.car_service.api.ApiClient;
 import com.example.car_service.api.ApiService;
 import com.example.car_service.model.AuthResponse;
 import com.example.car_service.model.LoginDto;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,32 +38,96 @@ import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText editTextEmail, editTextPassword;
+    private TextInputEditText editTextEmail, editTextPassword;
     private Button buttonLogin;
-    private TextView textViewRegister;
+    private MaterialButton buttonGoogleLogin;
+    private TextView textViewRegister, textViewForgotPassword;
     private ApiService apiService;
+
+    // Các biến cho Google Sign-In
+    private GoogleSignInClient mGoogleSignInClient;
+    private ActivityResultLauncher<Intent> googleSignInLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Khởi tạo ApiService
-        apiService = ApiClient.getClient().create(ApiService.class);
-
-        // Ánh xạ views
+        // --- Khởi tạo ---
+        apiService = ApiClient.getApiService();
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
         buttonLogin = findViewById(R.id.buttonLogin);
         textViewRegister = findViewById(R.id.textViewRegister);
+        textViewForgotPassword = findViewById(R.id.textViewForgotPassword);
+        buttonGoogleLogin = findViewById(R.id.buttonGoogleLogin);
 
-        // Xử lý sự kiện click nút Đăng nhập
+        // --- Cấu hình Google Sign-In ---
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        googleSignInLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(result.getData());
+                        handleGoogleSignInResult(task);
+                    } else {
+                        Toast.makeText(this, "Đăng nhập Google đã bị hủy.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+        // --- Thiết lập sự kiện Click ---
         buttonLogin.setOnClickListener(v -> loginUser());
+        buttonGoogleLogin.setOnClickListener(v -> signInWithGoogle());
+        textViewRegister.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, RegisterActivity.class)));
+        textViewForgotPassword.setOnClickListener(v -> startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class)));
+    }
 
-        // Xử lý sự kiện click text Đăng ký
-        textViewRegister.setOnClickListener(v -> {
-            Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-            startActivity(intent);
+    // --- Các hàm xử lý Logic ---
+
+    private void signInWithGoogle() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        googleSignInLauncher.launch(signInIntent);
+    }
+
+    private void handleGoogleSignInResult(Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            String idToken = account.getIdToken();
+            Log.d("GoogleSignIn", "Google ID Token: " + idToken);
+            sendGoogleTokenToBackend(idToken);
+        } catch (ApiException e) {
+            Log.w("GoogleSignIn", "signInResult:failed code=" + e.getStatusCode());
+            Toast.makeText(this, "Đăng nhập Google thất bại", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void sendGoogleTokenToBackend(String idToken) {
+        if (idToken == null) {
+            Toast.makeText(this, "Không lấy được Google Token.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Map<String, String> tokenMap = new HashMap<>();
+        tokenMap.put("idToken", idToken);
+
+        apiService.loginWithGoogle(tokenMap).enqueue(new Callback<AuthResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<AuthResponse> call, @NonNull Response<AuthResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    processSuccessfulLogin(response.body());
+                } else {
+                    Toast.makeText(LoginActivity.this, "Xác thực với server thất bại.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<AuthResponse> call, @NonNull Throwable t) {
+                Toast.makeText(LoginActivity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
@@ -63,38 +140,20 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        // Tạo DTO và gọi API
         LoginDto loginDto = new LoginDto(email, password);
-        Call<AuthResponse> call = apiService.loginUser(loginDto);
-
-        call.enqueue(new Callback<AuthResponse>() {
+        apiService.loginUser(loginDto).enqueue(new Callback<AuthResponse>() {
             @Override
             public void onResponse(@NonNull Call<AuthResponse> call, @NonNull Response<AuthResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    // Đăng nhập thành công, lấy token
-                    String token = response.body().getToken();
-                    Toast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
-
-                    // Lưu token vào SharedPreferences
-                    saveLoginInfo(token, response.body().getUserId());
-
-                    // Chuyển sang màn hình chính (MainActivity)
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    // Xóa hết các activity cũ khỏi stack để người dùng không quay lại màn hình login được
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    startActivity(intent);
-
+                    processSuccessfulLogin(response.body());
                 } else {
-                    // Đăng nhập thất bại
                     Toast.makeText(LoginActivity.this, "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.", Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<AuthResponse> call, @NonNull Throwable t) {
-                // Lỗi kết nối
                 Toast.makeText(LoginActivity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_LONG).show();
-                Log.e("LoginError", "onFailure: " + t.getMessage());
             }
         });
     }
@@ -103,7 +162,17 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("jwt_token", "Bearer " + token);
-        editor.putLong("user_id", userId); // Lưu User ID
+        editor.putLong("user_id", userId);
         editor.apply();
+    }
+
+    private void processSuccessfulLogin(AuthResponse authResponse) {
+        Toast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
+        saveLoginInfo(authResponse.getToken(), authResponse.getUserId());
+
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish(); // Đóng LoginActivity sau khi đăng nhập thành công
     }
 }
