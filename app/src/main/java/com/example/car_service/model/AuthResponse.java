@@ -1,4 +1,3 @@
-// trong file AuthResponse.java
 package com.example.car_service.model;
 
 import com.google.gson.annotations.SerializedName;
@@ -7,16 +6,22 @@ public class AuthResponse {
     @SerializedName("token")
     private String token;
 
-    // Thêm dòng này
     @SerializedName("userId")
     private long userId;
 
+    @SerializedName("fullName") // Thêm trường này
+    private String fullName;
+
+    // Getters
     public String getToken() {
         return token;
     }
 
-    // Thêm hàm này
     public long getUserId() {
         return userId;
+    }
+
+    public String getFullName() { // Thêm phương thức này
+        return fullName;
     }
 }

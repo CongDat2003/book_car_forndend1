@@ -18,21 +18,7 @@
         <activity
             android:name=".activity.EditProfileActivity"
             android:exported="false" />
-        <activity
-            android:name=".activity.AccountActivity"
-            android:exported="false" />
-        <activity
-            android:name=".item_banner"
-            android:exported="false" />
-        <activity
-            android:name=".service.item_service"
-            android:exported="false" />
-        <activity
-            android:name=".activity.ItemAppointment"
-            android:exported="false" />
-        <activity
-            android:name=".activity.HistoryActivity"
-            android:exported="false" />
+        <!-- Remove obsolete activities migrated to fragments -->
         <activity
             android:name=".activity.ResetPasswordActivity"
             android:exported="false" />
