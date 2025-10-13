@@ -98,6 +98,13 @@ public class LoginActivity extends AppCompatActivity {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             String idToken = account.getIdToken();
+
+            // Lấy URL ảnh đại diện từ tài khoản Google
+            String photoUrl = (account.getPhotoUrl() != null) ? account.getPhotoUrl().toString() : null;
+
+            // Lưu URL ảnh vào SharedPreferences
+            saveGooglePhotoUrl(photoUrl);
+
             Log.d("GoogleSignIn", "Google ID Token: " + idToken);
             sendGoogleTokenToBackend(idToken);
         } catch (ApiException e) {
@@ -158,21 +165,32 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void saveLoginInfo(String token, long userId) {
+    // Sửa lại hàm này để nhận thêm fullName
+    private void saveLoginInfo(String token, long userId, String fullName) {
         SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("jwt_token", "Bearer " + token);
         editor.putLong("user_id", userId);
+        editor.putString("user_full_name", fullName);
         editor.apply();
     }
 
+    // Hàm này chỉ dùng để lưu URL ảnh Google
+    private void saveGooglePhotoUrl(String url) {
+        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("user_avatar_url", url);
+        editor.apply();
+    }
+
+    // Sửa lại hàm này để truyền cả fullName
     private void processSuccessfulLogin(AuthResponse authResponse) {
         Toast.makeText(LoginActivity.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
-        saveLoginInfo(authResponse.getToken(), authResponse.getUserId());
+        saveLoginInfo(authResponse.getToken(), authResponse.getUserId(), authResponse.getFullName());
 
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
-        finish(); // Đóng LoginActivity sau khi đăng nhập thành công
+        finish();
     }
 }

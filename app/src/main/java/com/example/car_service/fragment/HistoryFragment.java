@@ -1,57 +1,61 @@
-package com.example.car_service.activity;
+package com.example.car_service.fragment;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.car_service.R;
 import com.example.car_service.adapter.AppointmentAdapter;
 import com.example.car_service.api.ApiClient;
 import com.example.car_service.api.ApiService;
 import com.example.car_service.model.Appointment;
-
+import android.widget.Toast;
+import androidx.annotation.NonNull;
 import java.util.ArrayList;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HistoryActivity extends AppCompatActivity {
+public class HistoryFragment extends Fragment {
 
     private RecyclerView recyclerViewHistory;
     private AppointmentAdapter adapter;
     private List<Appointment> appointmentList = new ArrayList<>();
     private ApiService apiService;
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_history);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_history, container, false);
+    }
 
-        recyclerViewHistory = findViewById(R.id.recyclerViewHistory);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        recyclerViewHistory = view.findViewById(R.id.recyclerViewHistory);
         apiService = ApiClient.getApiService();
 
-        // Thiết lập RecyclerView
-        recyclerViewHistory.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewHistory.setLayoutManager(new LinearLayoutManager(requireContext()));
         adapter = new AppointmentAdapter(appointmentList);
         recyclerViewHistory.setAdapter(adapter);
 
-        // Tải lịch sử
         fetchAppointmentHistory();
     }
 
     private void fetchAppointmentHistory() {
-        SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("MyAppPrefs", requireContext().MODE_PRIVATE);
         String authToken = sharedPreferences.getString("jwt_token", null);
         long userId = sharedPreferences.getLong("user_id", -1);
 
         if (authToken == null || userId == -1) {
-            Toast.makeText(this, "Lỗi xác thực. Vui lòng đăng nhập lại.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(requireContext(), "Lỗi xác thực. Vui lòng đăng nhập lại.", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -63,14 +67,13 @@ public class HistoryActivity extends AppCompatActivity {
                     appointmentList.addAll(response.body());
                     adapter.notifyDataSetChanged();
                 } else {
-                    Toast.makeText(HistoryActivity.this, "Không thể tải lịch sử.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(requireContext(), "Không thể tải lịch sử.", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<List<Appointment>> call, @NonNull Throwable t) {
-                Toast.makeText(HistoryActivity.this, "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                Log.e("HistoryActivity", "onFailure: " + t.getMessage());
+                Toast.makeText(requireContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
