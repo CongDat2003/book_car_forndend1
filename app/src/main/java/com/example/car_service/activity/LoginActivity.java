@@ -165,13 +165,15 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    // Sửa lại hàm này để nhận thêm fullName
+    // Sửa lại hàm này để nhận thêm fullName và các thông tin khác
     private void saveLoginInfo(String token, long userId, String fullName) {
         SharedPreferences sharedPreferences = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString("jwt_token", "Bearer " + token);
         editor.putLong("user_id", userId);
         editor.putString("user_full_name", fullName);
+        // Lưu thêm thông tin cơ bản từ đăng nhập
+        // Các thông tin chi tiết khác sẽ được lưu khi gọi API getUserDetails
         editor.apply();
     }
 

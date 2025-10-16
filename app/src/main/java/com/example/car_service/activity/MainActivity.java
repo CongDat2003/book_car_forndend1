@@ -1,5 +1,6 @@
 package com.example.car_service.activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,8 +10,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.car_service.R;
 import com.example.car_service.fragment.AccountFragment;
-import com.example.car_service.fragment.HistoryFragment;
+import com.example.car_service.fragment.OrdersFragment;
+import com.example.car_service.fragment.CartFragment;
 import com.example.car_service.fragment.HomeFragment;
+import com.example.car_service.fragment.StoreFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,8 +36,12 @@ public class MainActivity extends AppCompatActivity {
 
             if (itemId == R.id.nav_home) {
                 selectedFragment = new HomeFragment();
-            } else if (itemId == R.id.nav_appointment) {
-                selectedFragment = new HistoryFragment();
+            } else if (itemId == R.id.nav_store) {
+                selectedFragment = new StoreFragment();
+            } else if (itemId == R.id.nav_cart) {
+                selectedFragment = new CartFragment();
+            } else if (itemId == R.id.nav_orders) {
+                selectedFragment = new OrdersFragment();
             } else if (itemId == R.id.nav_account) {
                 selectedFragment = new AccountFragment();
             }
