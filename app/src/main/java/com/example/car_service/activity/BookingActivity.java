@@ -56,12 +56,12 @@ public class BookingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_booking);
 
         // Ánh xạ views
-        spinnerVehicle = findViewById(R.id.spinnerVehicle);
-        spinnerService = findViewById(R.id.spinnerService);
-        textViewSelectedDate = findViewById(R.id.textViewSelectedDate);
-        textViewSelectedTime = findViewById(R.id.textViewSelectedTime);
-        editTextNotes = findViewById(R.id.editTextNotes);
-        buttonConfirmBooking = findViewById(R.id.buttonConfirmBooking);
+        spinnerVehicle = findViewById(R.id.autoCompleteVehicleType);
+        spinnerService = findViewById(R.id.autoCompleteServiceType);
+        textViewSelectedDate = findViewById(R.id.editTextDate);
+        textViewSelectedTime = findViewById(R.id.editTextTime);
+        editTextNotes = findViewById(R.id.editTextDescription);
+        buttonConfirmBooking = findViewById(R.id.buttonBook);
 
         // Khởi tạo ApiService
         // Dòng code đúng
@@ -116,7 +116,7 @@ public class BookingActivity extends AppCompatActivity {
     }
 
     private void fetchServices() {
-        apiService.getServices(authToken).enqueue(new Callback<List<Service>>() {
+        apiService.getServices().enqueue(new Callback<List<Service>>() {
             @Override
             public void onResponse(@NonNull Call<List<Service>> call, @NonNull Response<List<Service>> response) {
                 if (response.isSuccessful() && response.body() != null) {

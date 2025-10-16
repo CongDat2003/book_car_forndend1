@@ -28,10 +28,16 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_forgot_password);
 
         editTextEmail = findViewById(R.id.editTextEmail);
-        buttonSendRequest = findViewById(R.id.buttonSendRequest);
+        buttonSendRequest = findViewById(R.id.buttonSendReset);
+        Button buttonBackToLogin = findViewById(R.id.buttonBackToLogin);
         apiService = ApiClient.getApiService();
 
         buttonSendRequest.setOnClickListener(v -> sendForgotPasswordRequest());
+        buttonBackToLogin.setOnClickListener(v -> {
+            Intent intent = new Intent(ForgotPasswordActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        });
     }
 
     private void sendForgotPasswordRequest() {

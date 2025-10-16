@@ -24,7 +24,6 @@
                     android:id="@+id/textViewUserNameHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    tools:text="Vũ Công Đạt"
                     android:textSize="20sp"
                     android:textStyle="bold"/>
             </RelativeLayout>
@@ -53,10 +52,10 @@
                     android:textColor="?attr/colorPrimary"/>
             </RelativeLayout>
 
-            <TextView android:id="@+id/textViewFullName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" tools:text="Họ &amp; tên: Vũ Công Đạt"/>
-            <TextView android:id="@+id/textViewPhoneNumber" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" tools:text="Số di động: +84 867 495 301"/>
-            <TextView android:id="@+id/textViewDob" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" tools:text="Ngày sinh: 1999-10-11"/>
-            <TextView android:id="@+id/textViewGender" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" tools:text="Giới tính: Nam"/>
+            <TextView android:id="@+id/textViewFullName" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp"/>
+            <TextView android:id="@+id/textViewPhoneNumber" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp"/>
+            <TextView android:id="@+id/textViewDob" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp"/>
+            <TextView android:id="@+id/textViewGender" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -80,8 +79,8 @@
                     android:layout_alignParentEnd="true"
                     android:textColor="?attr/colorPrimary"/>
             </RelativeLayout>
-            <TextView android:id="@+id/textViewAddress" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp" tools:text="Địa chỉ: ..."/>
-            <TextView android:id="@+id/textViewEmail" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" tools:text="Email: ..."/>
+            <TextView android:id="@+id/textViewAddress" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="8dp"/>
+            <TextView android:id="@+id/textViewEmail" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp"/>
         </LinearLayout>
 
         <Button
