@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Service {
     @SerializedName("id")
-    private long id;
+    private Long id;
 
     @SerializedName("serviceName")
     private String serviceName;
@@ -18,8 +18,8 @@ public class Service {
     @SerializedName("imageUrl")
     private String imageUrl;
     // Getters and Setters
-    public long getId() { return id; }
-    public void setId(long id) { this.id = id; }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
     public String getServiceName() { return serviceName; }
     public void setServiceName(String serviceName) { this.serviceName = serviceName; }
     public String getDescription() { return description; }
