@@ -4,7 +4,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
-    // LƯU Ý QUAN TRỌNG: DÙNG IP 10.0.2.2 THAY CHO LOCALHOST
+    // Dùng IP LAN của PC khi test trên điện thoại thật
     private static final String BASE_URL = "http://10.0.2.2:8080/";
 
     private static Retrofit retrofit = null;

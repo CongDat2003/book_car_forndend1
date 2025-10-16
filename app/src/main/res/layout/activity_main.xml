@@ -19,11 +19,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@drawable/bottom_nav_background"
-        android:elevation="8dp"
+        android:elevation="12dp"
         app:menu="@menu/bottom_nav_menu"
         app:itemIconTint="@color/bottom_nav_item_color"
         app:itemTextColor="@color/bottom_nav_item_color"
         app:itemActiveIndicatorStyle="@style/BottomNavigationActiveIndicator"
-        app:labelVisibilityMode="labeled"/>
+        app:labelVisibilityMode="labeled"
+        app:itemIconSize="28dp"
+        app:itemTextAppearanceActive="@style/TextAppearance.Material3.LabelLarge"
+        app:itemTextAppearanceInactive="@style/TextAppearance.Material3.LabelMedium"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

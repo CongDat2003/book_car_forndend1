@@ -1,111 +1,256 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fillViewport="true">
+    android:background="@color/background_light"
+    tools:context=".activity.EditProfileActivity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Chỉnh sửa hồ sơ"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_marginBottom="24dp"/>
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Họ &amp; Tên">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextFullName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </com.google.android.material.textfield.TextInputLayout>
+            android:orientation="vertical"
+            android:padding="24dp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="Số điện thoại">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextPhoneNumber"
+            <!-- Header Section -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="phone"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginBottom="32dp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="Email">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextEmail"
+                <!-- Icon -->
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="16dp"
+                    app:cardCornerRadius="40dp"
+                    app:cardElevation="8dp"
+                    app:cardBackgroundColor="@color/primary_color">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_edit"
+                        android:tint="@android:color/white"/>
+                </com.google.android.material.card.MaterialCardView>
+
+                <!-- Title -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Chỉnh sửa thông tin"
+                    android:textSize="28sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary"
+                    android:layout_marginBottom="8dp"/>
+
+                <!-- Subtitle -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cập nhật thông tin cá nhân của bạn"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_secondary"
+                    android:gravity="center"/>
+            </LinearLayout>
+
+            <!-- Edit Form Card -->
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginBottom="24dp"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="12dp"
+                app:cardBackgroundColor="@android:color/white"
+                app:strokeWidth="0dp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="Ngày sinh (YYYY-MM-DD)">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextDob"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="date"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="24dp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="Giới tính">
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/editTextGender"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </com.google.android.material.textfield.TextInputLayout>
+                    <!-- Full Name Field -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:hint="Họ và tên"
+                        app:boxStrokeColor="@color/primary_color"
+                        app:hintTextColor="@color/primary_color"
+                        app:startIconDrawable="@drawable/ic_person"
+                        app:startIconTint="@color/primary_color"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-        <TextView
-            android:id="@+id/textViewProvince"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Tỉnh/ Thành phố"
-            android:padding="16dp"
-            android:drawableEnd="@android:drawable/arrow_down_float"
-            android:layout_marginTop="16dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"/>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editTextFullName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textPersonName"
+                            android:textSize="16sp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
-            android:id="@+id/textViewDistrict"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Quận/ Huyện"
-            android:layout_marginTop="16dp"
-            android:padding="16dp"
-            android:drawableEnd="@android:drawable/arrow_down_float"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"/>
+                    <!-- Phone Field -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:hint="Số điện thoại"
+                        app:boxStrokeColor="@color/primary_color"
+                        app:hintTextColor="@color/primary_color"
+                        app:startIconDrawable="@drawable/ic_phone"
+                        app:startIconTint="@color/primary_color"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-        <Button
-            android:id="@+id/buttonSave"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Lưu"
-            android:padding="16dp"
-            android:layout_marginTop="32dp"/>
-    </LinearLayout>
-</ScrollView>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editTextPhoneNumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="phone"
+                            android:textSize="16sp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Email Field -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:hint="Email"
+                        app:boxStrokeColor="@color/primary_color"
+                        app:hintTextColor="@color/primary_color"
+                        app:startIconDrawable="@drawable/ic_email"
+                        app:startIconTint="@color/primary_color"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editTextEmail"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textEmailAddress"
+                            android:textSize="16sp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Date of Birth Field -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:hint="Ngày sinh"
+                        app:boxStrokeColor="@color/primary_color"
+                        app:hintTextColor="@color/primary_color"
+                        app:startIconDrawable="@drawable/ic_calendar"
+                        app:startIconTint="@color/primary_color"
+                        app:endIconMode="custom"
+                        app:endIconDrawable="@drawable/ic_calendar_today"
+                        app:endIconTint="@color/primary_color"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/editTextDob"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="date"
+                            android:textSize="16sp"
+                            android:focusable="false"
+                            android:clickable="true"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Gender Field -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:hint="Giới tính"
+                        app:boxStrokeColor="@color/primary_color"
+                        app:hintTextColor="@color/primary_color"
+                        app:startIconDrawable="@drawable/ic_person"
+                        app:startIconTint="@color/primary_color"
+                        app:endIconMode="dropdown_menu"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/editTextGender"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:textSize="16sp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Province Field -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:hint="Tỉnh/Thành phố"
+                        app:boxStrokeColor="@color/primary_color"
+                        app:hintTextColor="@color/primary_color"
+                        app:startIconDrawable="@drawable/ic_location"
+                        app:startIconTint="@color/primary_color"
+                        app:endIconMode="custom"
+                        app:endIconDrawable="@drawable/ic_arrow_drop_down"
+                        app:endIconTint="@color/primary_color"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+                        <TextView
+                            android:id="@+id/textViewProvince"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:padding="16dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:focusable="true"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- District Field -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="24dp"
+                        android:hint="Quận/Huyện"
+                        app:boxStrokeColor="@color/primary_color"
+                        app:hintTextColor="@color/primary_color"
+                        app:startIconDrawable="@drawable/ic_location"
+                        app:startIconTint="@color/primary_color"
+                        app:endIconMode="custom"
+                        app:endIconDrawable="@drawable/ic_arrow_drop_down"
+                        app:endIconTint="@color/primary_color"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+                        <TextView
+                            android:id="@+id/textViewDistrict"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:padding="16dp"
+                            android:background="?attr/selectableItemBackgroundBorderless"
+                            android:clickable="true"
+                            android:focusable="true"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Save Button -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/buttonSave"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:text="Lưu thông tin"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:backgroundTint="@color/primary_color"
+                        app:cornerRadius="16dp"
+                        app:elevation="4dp"/>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
+    </ScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

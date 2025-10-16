@@ -13,12 +13,29 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Car_service"
+        android:theme="@style/Theme.CarService"
         tools:targetApi="31">
         <activity
-            android:name=".activity.EditProfileActivity"
+            android:name=".activity.SelectVehicleActivity"
             android:exported="false" />
-        <!-- Remove obsolete activities migrated to fragments -->
+        <activity
+            android:name=".activity.SelectServiceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.SelectProductActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.SelectTimeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.CheckoutActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.ConfirmationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.EditProfileActivity"
+            android:exported="false" /> <!-- Remove obsolete activities migrated to fragments -->
         <activity
             android:name=".activity.ResetPasswordActivity"
             android:exported="false" />

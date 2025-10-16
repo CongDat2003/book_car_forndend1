@@ -1,6 +1,9 @@
 package com.example.car_service.api;
 
 import com.example.car_service.model.Appointment;
+import com.example.car_service.model.Brand;
+import com.example.car_service.model.VehicleModel;
+import com.example.car_service.model.Product;
 import com.example.car_service.model.AppointmentRequest;
 import com.example.car_service.model.AuthResponse;
 import com.example.car_service.model.District;
@@ -23,6 +26,7 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ApiService {
 
@@ -57,8 +61,8 @@ public interface ApiService {
     Call<List<District>> getDistricts(@Header("Authorization") String token, @Path("provinceId") int provinceId);
 
     // === API Dịch vụ ===
-    @GET("api/services")
-    Call<List<Service>> getServices(@Header("Authorization") String token);
+    @GET("api/catalog/services")
+    Call<List<Service>> getServices();
 
     // === API Xe ===
     @GET("api/users/{userId}/vehicles")
@@ -67,10 +71,33 @@ public interface ApiService {
     @POST("api/vehicles")
     Call<Vehicle> addVehicle(@Header("Authorization") String token, @Body Vehicle vehicle);
 
+    // === API Thương hiệu & Mẫu xe (không yêu cầu token) ===
+    @GET("api/catalog/brands")
+    Call<List<Brand>> getBrands();
+
+    // Trả về models theo brandId
+    @GET("api/catalog/brands/{brandId}/models")
+    Call<List<VehicleModel>> getVehicleModelsByBrand(@Path("brandId") Integer brandId);
+
+    // === API Sản phẩm theo dịch vụ ===
+    @GET("api/catalog/services/{serviceId}/products")
+    Call<List<Product>> getProductsByService(@Path("serviceId") long serviceId);
+
+    // === API Lịch rảnh (khung giờ) ===
+    @GET("api/appointments/available-slots/{date}")
+    Call<List<String>> getAvailableSlots(@Path("date") String dateIso);
+
     // === API Đặt lịch ===
     @POST("api/appointments")
     Call<Appointment> createAppointment(@Header("Authorization") String token, @Body AppointmentRequest appointmentRequest);
 
     @GET("api/users/{userId}/appointments")
     Call<List<Appointment>> getAppointmentHistory(@Header("Authorization") String token, @Path("userId") long userId);
+
+    // === API Đơn hàng ===
+    @GET("api/orders/my")
+    Call<List<com.example.car_service.model.Order>> getMyOrders(@Header("Authorization") String token);
+
+    @POST("api/orders")
+    Call<com.example.car_service.model.Order> createOrder(@Header("Authorization") String token, @Body com.example.car_service.model.CreateOrderRequest request);
 }

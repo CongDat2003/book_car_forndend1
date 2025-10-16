@@ -75,6 +75,8 @@ public class AccountFragment extends Fragment {
                     }
                 });
 
+        // Hiển thị thông tin từ SharedPreferences trước, sau đó gọi API để cập nhật
+        displayUserInfoFromPrefs();
         fetchUserDetails();
 
         buttonLogout.setOnClickListener(v -> logoutUser());
@@ -102,6 +104,41 @@ public class AccountFragment extends Fragment {
         });
     }
 
+    private void displayUserInfoFromPrefs() {
+        SharedPreferences prefs = requireContext().getSharedPreferences("MyAppPrefs", requireContext().MODE_PRIVATE);
+        String fullName = prefs.getString("user_full_name", null);
+        String email = prefs.getString("user_email", null);
+        String phone = prefs.getString("user_phone", null);
+        String dob = prefs.getString("user_dob", null);
+        String gender = prefs.getString("user_gender", null);
+        String address = prefs.getString("user_address", null);
+
+        if (fullName != null && !fullName.isEmpty()) {
+            textViewUserNameHeader.setText(fullName);
+            textViewFullName.setText("Họ & tên: " + fullName);
+        }
+        
+        if (phone != null && !phone.isEmpty()) {
+            textViewPhoneNumber.setText("Số di động: " + phone);
+        }
+        
+        if (email != null && !email.isEmpty()) {
+            textViewEmail.setText("Email: " + email);
+        }
+        
+        if (dob != null && !dob.isEmpty()) {
+            textViewDob.setText("Ngày sinh: " + dob);
+        }
+        
+        if (gender != null && !gender.isEmpty()) {
+            textViewGender.setText("Giới tính: " + gender);
+        }
+        
+        if (address != null && !address.isEmpty()) {
+            textViewAddress.setText("Địa chỉ: " + address);
+        }
+    }
+
     private void fetchUserDetails() {
         SharedPreferences prefs = requireContext().getSharedPreferences("MyAppPrefs", requireContext().MODE_PRIVATE);
         long userId = prefs.getLong("user_id", -1);
@@ -118,16 +155,46 @@ public class AccountFragment extends Fragment {
                 if (response.isSuccessful() && response.body() != null) {
                     currentUser = response.body();
                     populateUI(currentUser);
+                    // Lưu thông tin mới vào SharedPreferences
+                    saveUserInfoToPrefs(currentUser);
                 } else {
-                    Toast.makeText(requireContext(), "Không thể tải thông tin cá nhân", Toast.LENGTH_SHORT).show();
+                    // Nếu API thất bại, vẫn giữ thông tin từ SharedPreferences
+                    Toast.makeText(requireContext(), "Không thể tải thông tin mới từ server", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+                // Nếu API thất bại, vẫn giữ thông tin từ SharedPreferences
                 Toast.makeText(requireContext(), "Lỗi kết nối: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void saveUserInfoToPrefs(User user) {
+        SharedPreferences prefs = requireContext().getSharedPreferences("MyAppPrefs", requireContext().MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        
+        if (user.getFullName() != null) {
+            editor.putString("user_full_name", user.getFullName());
+        }
+        if (user.getEmail() != null) {
+            editor.putString("user_email", user.getEmail());
+        }
+        if (user.getPhoneNumber() != null) {
+            editor.putString("user_phone", user.getPhoneNumber());
+        }
+        if (user.getDateOfBirth() != null) {
+            editor.putString("user_dob", user.getDateOfBirth());
+        }
+        if (user.getGender() != null) {
+            editor.putString("user_gender", user.getGender());
+        }
+        if (user.getAddress() != null) {
+            editor.putString("user_address", user.getAddress());
+        }
+        
+        editor.apply();
     }
 
     private void populateUI(User user) {
